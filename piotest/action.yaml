@@ -44,7 +44,7 @@ runs:
       shell: bash
       run: |
           sudo apt update
-          sudo apt-get  install --mark-auto --upgrade python3 python-is-python3 python3-pip    - name: Install dependencies
+          sudo apt-get  install --mark-auto --upgrade python3 python-is-python3 python3-pip
 
     - name: Install PlatformIO Core
       shell: bash
@@ -56,7 +56,7 @@ runs:
         echo "$HOME/.local/bin" >> $GITHUB_PATH
         if [[ -n "${{ inputs.env }}" ]]; then
           jq -r 'keys[] as $k | "\($k)=\(.[$k])"' >>$GITHUB_ENV << EOF
-          ${{ toJSON(inputs.env) }}
+          ${{ inputs.env }}
         EOF
         fi
 
