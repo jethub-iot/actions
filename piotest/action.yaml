@@ -63,5 +63,5 @@ runs:
     - name: Run PlatformIO Project tests
       shell: bash
       run: |
-        cd ${{ inputs.path }}}
+        cd ${{ inputs.path }}
         pio test -e ${{ inputs.pio_env }} ${{ inputs.extra_flags }}
