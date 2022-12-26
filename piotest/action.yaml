@@ -1,0 +1,63 @@
+name: CI PlatformIO test
+description: Run CI PlatformIO test
+
+inputs:
+  board:
+    description: 'Board to test'
+    required: true
+    default: ''
+  pio_env:
+    description: 'PlatformIO environment to test'
+    required: true
+  env:
+    description: 'Environment variables to set'
+    required: false
+    default: '{}'
+  extra_flags:
+    description: 'Extra flags to pass to pio test'
+    required: false
+    default: ''
+  path:
+    description: 'Path to PlatformIO project'
+    required: false
+    default: '.'
+    
+  
+
+env:
+  SEGMENT_DOWNLOAD_TIMEOUT_MINS: 10
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check board
+      shell: bash
+      run: echo "Board ${{ input.board }} on $(hostname) runner"
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        path: jethub-hal
+        fetch-depth: 1
+
+    - name: Install dependencies
+      run: |
+          sudo apt update
+          sudo apt-get  install --mark-auto --upgrade python3 python-is-python3 python3-pip    - name: Install dependencies
+
+    - name: Install PlatformIO Core
+      run: pip install --upgrade platformio
+
+    - name: Add PATH and env vars
+      run: |
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
+        if [[ -n "${{ input.env }}" ]]; then
+          jq -r 'keys[] as $k | "\($k)=\(.[$k])"' >>$GITHUB_ENV << EOF
+          ${{ toJSON(input.env) }}
+        EOF
+        fi
+
+    - name: Run PlatformIO Project tests
+      run: |
+        cd ${{ input.path }}}
+        pio test -e ${{ input.pio_env }} ${{ input.extra_flags }}
