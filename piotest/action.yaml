@@ -32,7 +32,7 @@ runs:
   steps:
     - name: Check board
       shell: bash
-      run: echo "Board ${{ input.board }} on $(hostname) runner"
+      run: echo "Board ${{ inputs.board }} on $(hostname) runner"
 
     - name: Checkout
       uses: actions/checkout@v3
@@ -54,14 +54,14 @@ runs:
       shell: bash
       run: |
         echo "$HOME/.local/bin" >> $GITHUB_PATH
-        if [[ -n "${{ input.env }}" ]]; then
+        if [[ -n "${{ inputs.env }}" ]]; then
           jq -r 'keys[] as $k | "\($k)=\(.[$k])"' >>$GITHUB_ENV << EOF
-          ${{ toJSON(input.env) }}
+          ${{ toJSON(inputs.env) }}
         EOF
         fi
 
     - name: Run PlatformIO Project tests
       shell: bash
       run: |
-        cd ${{ input.path }}}
-        pio test -e ${{ input.pio_env }} ${{ input.extra_flags }}
+        cd ${{ inputs.path }}}
+        pio test -e ${{ inputs.pio_env }} ${{ inputs.extra_flags }}
