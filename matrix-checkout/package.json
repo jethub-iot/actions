@@ -1,0 +1,33 @@
+{
+  "name": "matrix-checkout-action",
+  "version": "1.0.1",
+  "description": "A GitHub Action to checkout multiple additional repositories from JSON array",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "test": "standard",
+    "build": "mkdir -p dist && cp node_modules/checkout/dist/index.js dist/checkout.js && cp node_modules/checkout/dist/problem-matcher.json dist/problem-matcher.json"
+  },
+  "dependencies": {
+    "checkout": "github:actions/checkout#v3.2.0"
+  },
+  "devDependencies": {
+    "standard": "^16.0.1"
+  },
+  "repository": "jethub-iot/actions/matrix-checkout",
+  "engines": {
+    "node": ">=16"
+  },
+  "standard": {
+    "ignore": [
+      "dist"
+    ]
+  },
+  "keywords": [
+    "action",
+    "checkout",
+    "clone",
+    "multi",
+    "repository"
+  ]
+}
